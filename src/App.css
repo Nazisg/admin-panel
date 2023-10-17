@@ -1,0 +1,21 @@
+@font-face {
+  font-family: libre;
+  src: url(./fonts/AbhayaLibre-Bold.ttf);
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: libre;
+  text-decoration: none;
+  list-style: none;
+}
+.app{
+  display: flex;
+  width: 100%;
+}
+.main{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
