@@ -3,13 +3,13 @@ import styles from '../styles/Content.module.scss'
 import Overview from './Overview'
 import ClientsBar from './ClientsBar'
 
-export default function Content() {
+export default function Content({setShowModal}) {
     
   return (
     <div className={styles.content}>
        <div className={styles.container}>
         <Overview />
-        <ClientsBar />
+        <ClientsBar setShowModal={setShowModal}/>
        </div>
     </div>
   )

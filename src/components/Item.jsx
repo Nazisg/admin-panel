@@ -2,8 +2,19 @@ import React from "react";
 import styles from '../styles/Content.module.scss'
 import del from '../images/del.png'
 import edit from '../images/edit.png'
+import axios from "axios";
 
-export default function Item({imgSrc,fullName,flagSrc,email,language, occupation,objective,subscription}) {
+export default function Item({imgSrc,fullName,flagSrc,email,language, occupation,objective,subscription,id,setFilterData,setData}) {
+    function Delete(id) {
+        axios.delete(`http://localhost:3000/data/${id}`)
+          .then((res) => {
+            setData(res.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      
   return (
     <div className={styles.listItem}>
       <div className={styles.column27}>
@@ -21,8 +32,8 @@ export default function Item({imgSrc,fullName,flagSrc,email,language, occupation
       <div className={styles.column15}>{objective}</div>
       <div className={styles.column15}>{subscription}</div>
       <div className={styles.iconBox}>
-        <img src={del} />
-        <img src={edit} />
+        <img src={del} onClick={() => Delete(id)}/>
+        <img src={edit}  onClick={()=>Edit(id)}/>
       </div>
     </div>
   );

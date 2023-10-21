@@ -7,29 +7,51 @@ import down from '../images/down.png'
 import axios from 'axios'
 import Item from './Item'
 
-export default function ClientsBar() {
-    const [data, setData] = useState()
-
-    function getData() {
-        axios.get(`http://localhost:3000/data`)
-        .then(res=>setData(res.data))
-        .catch(err=>console.log(err))
-    }
+export default function ClientsBar({setShowModal}) {
+    const [data, setData] = useState(null)
+    const [filterData, setFilterData] = useState(null)
+    const [inputValue, setInputValue] = useState('')
+    
+  async function getData() {
+    const res = await axios.get("http://localhost:3000/data");
+    setData(res.data)
+    setFilterData(res.data)
+  }
   
     useEffect(()=>{
         getData()
     },[])
+    const inputChange = (e) =>{
+        setInputValue(e.target.value)
+    }
 
-  return (
+    useEffect(()=>{
+        if (data && inputValue) {
+            const filtered = data.filter((item) =>
+              Object.values(item)
+                .join('')
+                .toLowerCase()
+                .includes(inputValue.toLowerCase())
+            );
+            setFilterData(filtered);
+          } else {
+            setFilterData(data);
+          }
+        }, [data, inputValue]);
+const AddUser =()=>{
+    setShowModal(true)
+}
+
+    return (
     <div className={styles.clientsBar}>
         <div className={styles.listHead}>
             <div className={styles.btnBox}>
                 <button className={styles.filter}><img src={filter}/>Filters</button>
-                <button className={styles.plus}><img src={plus}/>Add User</button>
+                <button className={styles.plus} onClick={AddUser}><img src={plus}/>Add User</button>
             </div>
             <div className={styles.inputBox}>
-                <img src={search} />
-                <input type="text" placeholder='Search'/>
+                <img src={search}  />
+                <input type="text" placeholder='Search' onChange={inputChange}/>
             </div>
         </div>
         <div className={styles.listCon}>
@@ -57,12 +79,12 @@ export default function ClientsBar() {
         </div>
         <div className={styles.list}>
          {
-            data && data.map((item)=>(
-                <Item key={item.id} imgSrc={item.imgSrc} fullName={item.fullName} 
+            !filterData? "Loading..":filterData.length? filterData.map((item)=>(
+                <Item key={item.id} id={item.id} imgSrc={item.imgSrc} fullName={item.fullName} 
                 flagSrc={item.flagSrc} email={item.email} language={item.language}
                 occupation={item.occupation} objective={item.objective} 
-                subscription={item.subscription}/> 
-            ))
+                subscription={item.subscription} setFilterData={setFilterData} setData={setData}/> 
+            )):"NotFound"
          }
         </div>
         </div>

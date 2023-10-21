@@ -8,7 +8,8 @@ import subscription from '../images/subscription.png'
 export default function Sidebar() {
 
   return (
-    <div className={styles.sidebar}>
+   <div>
+     <div className={styles.sidebar}>
         <div className={styles.head}>
             <h1>Admin</h1>
         </div>
@@ -22,7 +23,7 @@ export default function Sidebar() {
                 <p>Tutor online</p>
             </div>
             <div className={styles.item}>
-                <img src={activity} />
+                <img src={subscription} />
                 <p>Active subscription</p>
             </div>
             <div className={styles.item}>
@@ -31,5 +32,6 @@ export default function Sidebar() {
             </div>
         </div>
     </div>
+   </div>
   )
 }
